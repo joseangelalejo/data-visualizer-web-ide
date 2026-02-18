@@ -1,5 +1,3 @@
-<!-- markdownlint-disable MD029 -->
-
 # Licencia
 
 Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International
