@@ -28,7 +28,8 @@ jobs:
             echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> $GITHUB_ENV
           else
             echo "No repository secret JWT_SECRET found — generating temporary secret for CI build"
-            echo "JWT_SECRET=$(node -e \"console.log(require('crypto').randomBytes(64).toString('hex'))\")" >> $GITHUB_ENV
+            # Use openssl to avoid quoting/escaping issues in shell script
+            echo "JWT_SECRET=$(openssl rand -hex 64)" >> $GITHUB_ENV
           fi
         shell: bash
 
