@@ -174,6 +174,4 @@ Creative Commons is not a party to its public licenses. Notwithstanding, Creativ
 
 Creative Commons may be contacted at creativecommons.org.
 
-**Excepción**: El proyecto **ERS CS2-SVSS Fragify** (ubicado en `BASE DE DATOS/1º Entregable - ERS/`) y todos los apuntes creados por **José Ángel Alejo Sillero** están sujetos a la licencia **"Todos los derechos reservados"**. No se permite la reproducción, distribución, modificación o uso de estos materiales específicos sin autorización expresa y por escrito del autor.
-
 Copyright (c) 2026 José Ángel Alejo Sillero.

@@ -49,8 +49,8 @@
 ### Opción 1: <img src="https://img.icons8.com/color/48/000000/docker.png" width="20" height="20" alt="docker"/> Docker (Recomendado)
 
 ```bash
-git clone https://github.com/tu-usuario/json-csv-visualizer.git
-cd json-csv-visualizer
+git clone https://github.com/joseangelalejo/json-csv-visualizerv1
+cd json-csv-visualizerv1
 docker-compose up --build
 ```
 
@@ -59,8 +59,8 @@ Accede a `http://localhost`
 ### Opción 2: <img src="https://img.icons8.com/color/48/000000/code.png" width="20" height="20" alt="code"/> Desarrollo Local
 
 ```bash
-git clone https://github.com/tu-usuario/json-csv-visualizer.git
-cd json-csv-visualizer
+git clone https://github.com/joseangelalejo/json-csv-visualizerv1
+cd json-csv-visualizerv1
 npm install
 npm run dev
 ```
