@@ -454,6 +454,8 @@ export default function SqlEditor({ token }: { token: string }) {
       ; (editor as any).__debugDisposables = debugDisposables
 
       monacoEditorRef.current = editor
+      // Exponer `monaco` en desarrollo y en build normal (disponible globalmente)
+      try { (window as any).monaco = monaco } catch { }
       setMonacoError(null)
       setMonacoReady(true)
     } catch (err) {
