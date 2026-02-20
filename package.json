@@ -11,6 +11,7 @@
     "test:e2e": "npx playwright test --reporter=list"
   },
   "dependencies": {
+    "@neondatabase/serverless": "^1.0.2",
     "@tanstack/react-table": "^8.21.3",
     "@types/bcryptjs": "^2.4.6",
     "@types/jsonwebtoken": "^9.0.10",

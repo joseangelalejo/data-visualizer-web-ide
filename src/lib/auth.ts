@@ -1,20 +1,16 @@
 /**
  * Módulo de Autenticación - auth.ts
  *
- * Sistema de autenticación JWT con persistencia de usuarios en SQLite.
- * Usa el paquete 'sqlite3' (ya incluido en el proyecto) mediante una capa
- * síncrona con promesas, evitando dependencias nativas problemáticas.
+ * Sistema de autenticación JWT con persistencia de usuarios en PostgreSQL (Neon).
  *
  * @author José Ángel Alejo
- * @version 2.1.0
+ * @version 3.0.0
  */
 
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcryptjs'
 import crypto from 'crypto'
-import sqlite3 from 'sqlite3'
-import path from 'path'
-import fs from 'fs'
+import { neon } from '@neondatabase/serverless'
 
 // ── Configuración JWT ────────────────────────────────────────────────────────
 const JWT_SECRET = process.env.JWT_SECRET
@@ -27,34 +23,11 @@ if (!JWT_SECRET) {
 const SECRET = JWT_SECRET || (() => { throw new Error('JWT_SECRET must be set in environment variables') })()
 const JWT_EXPIRES_IN = parseInt(process.env.JWT_EXPIRES_IN || '3600', 10)
 
-// ── Base de datos SQLite ─────────────────────────────────────────────────────
-const DB_PATH = process.env.USERS_DB_PATH || path.join(process.cwd(), 'data', 'users.db')
-
-const dbDir = path.dirname(DB_PATH)
-if (!fs.existsSync(dbDir)) {
-  fs.mkdirSync(dbDir, { recursive: true })
-}
-
-// Singleton
-let _db: sqlite3.Database | null = null
-
-function getDb(): sqlite3.Database {
-  if (_db) return _db
-  _db = new sqlite3.Database(DB_PATH)
-  return _db
-}
-
-// ── Helpers de promesas sobre sqlite3 (que es callback-based) ────────────────
-function dbRun(sql: string, params: unknown[] = []): Promise<void> {
-  return new Promise((resolve, reject) => {
-    getDb().run(sql, params, (err) => err ? reject(err) : resolve())
-  })
-}
-
-function dbGet<T>(sql: string, params: unknown[] = []): Promise<T | undefined> {
-  return new Promise((resolve, reject) => {
-    getDb().get(sql, params, (err, row) => err ? reject(err) : resolve(row as T))
-  })
+// ── Base de datos PostgreSQL (Neon) ──────────────────────────────────────────
+function getDb() {
+  const url = process.env.DATABASE_URL
+  if (!url) throw new Error('DATABASE_URL must be set in environment variables')
+  return neon(url)
 }
 
 // ── Inicializar esquema ─────────────────────────────────────────────────────
@@ -63,30 +36,36 @@ async function ensureInit(): Promise<void> {
   if (_initialized) return
   _initialized = true
 
-  await dbRun(`
+  const sql = getDb()
+
+  await sql`
     CREATE TABLE IF NOT EXISTS users (
       id         TEXT PRIMARY KEY,
       username   TEXT UNIQUE NOT NULL,
       email      TEXT UNIQUE NOT NULL,
       password   TEXT NOT NULL,
       role       TEXT NOT NULL DEFAULT 'user',
-      created_at TEXT NOT NULL DEFAULT (datetime('now'))
+      created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
     )
-  `)
+  `
 
-  const row = await dbGet<{ n: number }>('SELECT COUNT(*) as n FROM users')
-  if ((row?.n ?? 0) === 0) {
+  const rows = await sql`SELECT COUNT(*) as n FROM users`
+  const count = parseInt(rows[0].n, 10)
+
+  if (count === 0) {
     const adminHash = bcrypt.hashSync('admin123', 12)
     const user1Hash = bcrypt.hashSync('user123', 12)
-    await dbRun(
-      'INSERT OR IGNORE INTO users (id, username, email, password, role) VALUES (?, ?, ?, ?, ?)',
-      ['1', 'admin', 'admin@generico.com', adminHash, 'admin']
-    )
-    await dbRun(
-      'INSERT OR IGNORE INTO users (id, username, email, password, role) VALUES (?, ?, ?, ?, ?)',
-      ['2', 'user1', 'user1@generico.com', user1Hash, 'user']
-    )
-    console.log('✅ Usuarios por defecto creados en SQLite')
+    await sql`
+      INSERT INTO users (id, username, email, password, role)
+      VALUES ('1', 'admin', 'admin@generico.com', ${adminHash}, 'admin')
+      ON CONFLICT DO NOTHING
+    `
+    await sql`
+      INSERT INTO users (id, username, email, password, role)
+      VALUES ('2', 'user1', 'user1@generico.com', ${user1Hash}, 'user')
+      ON CONFLICT DO NOTHING
+    `
+    console.log('✅ Usuarios por defecto creados en PostgreSQL')
   }
 }
 
@@ -103,8 +82,6 @@ export interface AuthToken {
   iat: number
   exp: number
 }
-
-type DbUser = User & { password: string }
 
 // ── Contraseñas ───────────────────────────────────────────────────────────────
 export async function hashPassword(password: string): Promise<string> {
@@ -135,7 +112,9 @@ export function verifyToken(token: string): AuthToken | null {
 // ── CRUD usuarios ─────────────────────────────────────────────────────────────
 export async function authenticateUser(username: string, password: string): Promise<User | null> {
   await ensureInit()
-  const row = await dbGet<DbUser>('SELECT * FROM users WHERE username = ?', [username])
+  const sql = getDb()
+  const rows = await sql`SELECT * FROM users WHERE username = ${username}`
+  const row = rows[0]
   if (!row) return null
   const valid = await verifyPassword(password, row.password)
   if (!valid) return null
@@ -146,18 +125,20 @@ export async function registerUser(username: string, email: string, password: st
   if (!username || !email || !password) throw new Error('Faltan campos obligatorios')
   await ensureInit()
 
-  const existsByUsername = await dbGet('SELECT id FROM users WHERE username = ?', [username])
-  if (existsByUsername) throw new Error('El nombre de usuario ya existe')
+  const sql = getDb()
 
-  const existsByEmail = await dbGet('SELECT id FROM users WHERE email = ?', [email])
-  if (existsByEmail) throw new Error('El email ya está en uso')
+  const existsByUsername = await sql`SELECT id FROM users WHERE username = ${username}`
+  if (existsByUsername.length > 0) throw new Error('El nombre de usuario ya existe')
+
+  const existsByEmail = await sql`SELECT id FROM users WHERE email = ${email}`
+  if (existsByEmail.length > 0) throw new Error('El email ya está en uso')
 
   const hashed = await hashPassword(password)
   const id = crypto.randomUUID()
-  await dbRun(
-    "INSERT INTO users (id, username, email, password, role) VALUES (?, ?, ?, ?, 'user')",
-    [id, username.trim(), email.trim(), hashed]
-  )
+  await sql`
+    INSERT INTO users (id, username, email, password, role)
+    VALUES (${id}, ${username.trim()}, ${email.trim()}, ${hashed}, 'user')
+  `
   return { id, username: username.trim(), role: 'user', email: email.trim() }
 }
 
@@ -174,4 +155,3 @@ export function requireAuth(request: Request): User {
 export function requireAdmin(user: User): void {
   if (user.role !== 'admin') throw new Error('Se requieren permisos de administrador')
 }
-
