@@ -13,11 +13,11 @@
  * - Estructura HTML5 semántica
  *
  * @author José Ángel Alejo
- * @version 1.0.0
+ * @version 1.1.0
  */
-
 import type { Metadata } from "next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 
 /**
@@ -53,6 +53,8 @@ export default function RootLayout({
         {children}
         {/* Vercel Speed Insights para monitoreo de rendimiento */}
         <SpeedInsights />
+        {/* Vercel Analytics para seguimiento de visitas */}
+        <Analytics />
       </body>
     </html>
   );
