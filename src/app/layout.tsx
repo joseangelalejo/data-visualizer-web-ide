@@ -17,6 +17,7 @@
  */
 
 import type { Metadata } from "next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
 
 /**
@@ -50,6 +51,8 @@ export default function RootLayout({
       <body className="font-sans antialiased">
         {/* Renderizado del contenido de la página actual */}
         {children}
+        {/* Vercel Speed Insights para monitoreo de rendimiento */}
+        <SpeedInsights />
       </body>
     </html>
   );
