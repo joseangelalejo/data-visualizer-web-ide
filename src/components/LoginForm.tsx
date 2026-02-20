@@ -87,6 +87,11 @@ export default function LoginForm({ onSuccess, onSwitchToRegister }: LoginFormPr
         </p>
       )}
 
+      {/* Credenciales de prueba */}
+      <div className="bg-indigo-50 border border-indigo-200 rounded-md px-3 py-2 text-sm text-indigo-700 text-center">
+        <span className="font-medium">Demo:</span> usuario <code className="font-mono bg-indigo-100 px-1 rounded">user1</code> · contraseña <code className="font-mono bg-indigo-100 px-1 rounded">user123</code>
+      </div>
+
       <button
         type="submit"
         disabled={loading}
