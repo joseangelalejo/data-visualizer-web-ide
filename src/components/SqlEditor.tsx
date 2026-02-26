@@ -1007,6 +1007,13 @@ export default function SqlEditor({ token }: { token: string }) {
       <div className="bg-white border border-gray-200 rounded-2xl shadow-sm p-4 mb-4">
         {!isConnected ? (
           <div>
+            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6 text-sm text-blue-700">
+              <p className="font-semibold text-blue-800 mb-2">🧪 Base de datos de demo disponible:</p>
+              <p><strong>Host:</strong> <code className="text-xs">ep-falling-flower-ai9ck030-pooler.c-4.us-east-1.aws.neon.tech</code></p>
+              <p><strong>Puerto:</strong> <code>5432</code> · <strong>BD:</strong> <code>neondb</code></p>
+              <p><strong>Solo lectura →</strong> usuario: <code>demo_readonly</code> · contraseña: <code>Demo_Read_2024!</code></p>
+              <p><strong>Editor →</strong> usuario: <code>demo_editor</code> · contraseña: <code>Demo_Edit_2024!</code></p>
+            </div>
             <h3 className="text-sm font-semibold text-gray-700 mb-3 flex items-center gap-2">
               <Link2Off size={15} className="text-gray-400" />
               Configurar conexión del editor SQL
