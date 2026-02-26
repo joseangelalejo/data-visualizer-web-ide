@@ -541,7 +541,7 @@ export default function SqlEditor({ token }: { token: string }) {
     }
     return {
       dbType: c.dbType,
-      connectionString: `${c.dbType}://${c.config.user}:${c.config.password}@${c.config.host}:${c.config.port}/${c.config.database}`,
+      connectionString: `${c.dbType}://${c.config.user}:${c.config.password}@${c.config.host}:${c.config.port}/${c.config.database}?sslmode=require`,
     }
   }, [])
 

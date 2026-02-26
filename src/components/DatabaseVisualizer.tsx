@@ -91,7 +91,7 @@ export default function DatabaseVisualizer({ token }: { token: string }) {
     const effectiveDb = overrideDb ?? database
     if (dbType === 'sqlite') return { connectionString: sqlitePath }
     if (dbType === 'mysql') return { config: { host, user: username, password, database: effectiveDb, port: parseInt(port) || 3306 } }
-    return { connectionString: `${dbType}://${username}:${password}@${host}:${port}/${effectiveDb}` }
+    return { connectionString: `${dbType}://${username}:${password}@${host}:${port}/${effectiveDb}?sslmode=require` }
   }
 
   const fetchSavedConnections = async () => {
