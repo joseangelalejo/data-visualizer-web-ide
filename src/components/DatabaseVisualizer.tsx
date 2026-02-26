@@ -209,8 +209,17 @@ export default function DatabaseVisualizer({ token }: { token: string }) {
     setNodes(schemaData.map((t, i) => ({
       id: t.name,
       data: { label: t.name },
-      position: { x: i * 200, y: 0 },
-      style: { cursor: 'pointer' },
+      position: { x: (i % 3) * 220, y: Math.floor(i / 3) * 120 },
+      style: {
+        cursor: 'pointer',
+        background: '#f5f3ff',
+        border: '2px solid #8b5cf6',
+        borderRadius: '10px',
+        padding: '10px 16px',
+        fontWeight: '600',
+        color: '#5b21b6',
+        fontSize: '13px',
+      },
     })))
     setEdges([])
   }
