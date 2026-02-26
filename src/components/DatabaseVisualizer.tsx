@@ -219,11 +219,13 @@ export default function DatabaseVisualizer({ token }: { token: string }) {
         fontWeight: '600',
         color: '#5b21b6',
         fontSize: '13px',
+        width: 'auto',
+        minWidth: '120px',
+        maxWidth: '180px',
       },
     })))
     setEdges([])
   }
-
   const exportData = () => {
     const csv = data.map(row => Object.values(row).join(',')).join('\n')
     const blob = new Blob([csv], { type: 'text/csv' })
@@ -365,11 +367,10 @@ export default function DatabaseVisualizer({ token }: { token: string }) {
             </h2>
             <div style={{ height: 400 }} className="bg-white rounded-xl shadow-inner">
               {nodes.length > 0 ? (
-                <ReactFlow
-                  nodes={nodes} edges={edges}
-                  onNodeClick={(_, node) => { setSelectedTable(node.id); loadTableData(node.id) }}
-                >
-                  <MiniMap /><Controls /><Background />
+                <ReactFlow nodes={nodes} edges={edges} onNodeClick={(_, node) => { setSelectedTable(node.id); loadTableData(node.id) }}>
+                  <MiniMap style={{ background: '#f3f4f6' }} maskColor="rgba(139,92,246,0.1)" />
+                  <Controls />
+                  <Background />
                 </ReactFlow>
               ) : (
                 <div className="flex items-center justify-center h-full text-gray-400">

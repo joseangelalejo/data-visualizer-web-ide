@@ -19,6 +19,7 @@ import type { Metadata } from "next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
+import '@xyflow/react/dist/style.css';
 
 /**
  * Metadatos SEO para la aplicación
