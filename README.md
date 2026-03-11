@@ -1,5 +1,9 @@
 # 🌟 JSON/CSV Data Visualizer
 
+<div align="center">
+  <img src="./public/assets/icon.png" alt="JSON/CSV Data Visualizer Icon" width="150" height="150" />
+</div>
+
 ## Visualiza tus datos de forma mágica ✨
 
 Una aplicación web moderna y elegante para explorar archivos JSON/CSV y bases de datos con tablas interactivas, gráficos dinámicos y diagramas ER.
