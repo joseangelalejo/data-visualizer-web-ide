@@ -1,52 +1,101 @@
-# 🌟 JSON/CSV Data Visualizer
+# 🌟 JSON/CSV Data Visualizer & Web IDE
+
+Aplicación web moderna para explorar archivos **JSON/CSV** y conectarse a múltiples bases de datos. Tablas interactivas, gráficos dinámicos, diagramas ER automáticos e IDE SQL integrado con Monaco Editor.
+
+🌐 **[json-csv-visualizerv1.vercel.app](https://json-csv-visualizerv1.vercel.app)**
 
 <div align="center">
-  <img src="./public/assets/icon.png" alt="JSON/CSV Data Visualizer Icon" width="150" height="150" />
+
+![Next.js](https://img.shields.io/badge/Next.js-16-000000?style=for-the-badge&logo=next.js&logoColor=white)
+![React](https://img.shields.io/badge/React-19-61DAFB?style=for-the-badge&logo=react&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-ready-2496ED?style=for-the-badge&logo=docker&logoColor=white)
+
 </div>
 
-## Visualiza tus datos de forma mágica ✨
+## ✨ Características principales
 
-Una aplicación web moderna y elegante para explorar archivos JSON/CSV y bases de datos con tablas interactivas, gráficos dinámicos y diagramas ER.
+✅ **Carga de archivos** — JSON y CSV explorados instantáneamente  
+✅ **Múltiples BDD** — SQLite, PostgreSQL, MySQL, MongoDB  
+✅ **Tablas interactivas** — Paginación, ordenación, búsqueda, filtros  
+✅ **Gráficos dinámicos** — Barras, líneas, pastel, histogramas  
+✅ **Diagramas ER** — Visualización automática de relaciones  
+✅ **IDE SQL** — Editor Monaco con autocompletado y ejecución  
+✅ **Exporta a CSV** — Descarga resultados en un clic  
+✅ **Interfaz moderna** — Gradientes vibrantes, responsive, animaciones  
 
-![Next.js](https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=next.js&logoColor=white)
-![React](https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=black)
-![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
-![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
-![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
+## 🛠️ Stack técnico
 
----
+| Capa           | Tecnología                                 |
+|----------------|--------------------------------------------|
+| **Frontend**   | Next.js 16 + React 19 + TypeScript         |
+| **Estilos**    | Tailwind CSS + componentes personalizados  |
+| **Editor SQL** | Monaco Editor                              |
+| **Gráficos**   | Chart.js / Recharts                        |
+| **BD**         | Soporte SQLite, PostgreSQL, MySQL, MongoDB |
+| **Deploy**     | Vercel + Docker                            |
+| **Auth**       | JWT opcional                               |
 
-## 🎯 Características Principales
+## 🗄️ Bases de datos soportadas
 
-- 📁 **Carga de Archivos JSON/CSV** — Exploración instantánea de datos
-- 🗄️ **Conexión a Bases de Datos** — SQLite, PostgreSQL, MySQL y MongoDB
-- 📊 **Tablas Interactivas** — Paginación, ordenación, búsqueda y filtros
-- 📈 **Gráficos Dinámicos** — Barras, líneas, pastel e histogramas
-- 🔴 **Diagramas ER** — Visualización automática de relaciones
-- ⬇️ **Exportación a CSV** — Descarga resultados en un clic
-- 💻 **IDE SQL integrado** — Editor Monaco con autocompletado y atajos
+- ✅ **SQLite** — Local, sin servidor
+- ✅ **PostgreSQL** — Conecciones remotas
+- ✅ **MySQL** — Compatible con TiDB Cloud
+- ✅ **MongoDB** — Documentos NoSQL
 
-### 🗂️ Soporte para Bases de Datos
+## 🚀 Quick Start
 
-- **SQLite** ✅
-- **PostgreSQL** ✅
-- **MySQL** ✅
-- **MongoDB** ✅
+```bash
+# Clonar repositorio
+git clone https://github.com/joseangelalejo/json-csv-visualizerv1.git
+cd json-csv-visualizerv1
 
-### 🎨 Interfaz Moderna
+# Instalar dependencias
+npm install
 
-- Gradientes vibrantes y colores chulos
-- Diseño responsivo y animaciones suaves
-- Tema automático
-- Componentes interactivos
+# Configurar variables
+cp .env.example .env.local
+# Opcional: configura BD remota
 
----
+# Desarrollo
+npm run dev
 
-## 🚀 Instalación Rápida
+# Build
+npm run build
+npm start
+```
 
-### Opción 1: 🐳 Docker (Recomendado)
+## 🐳 Docker
 
-> Antes de ejecutar Docker copia `.env.example` a `.env` o `.env.local` y define al menos `JWT_SECRET`. En desarrollo es conveniente que `NEXTAUTH_SECRET` coincida con `JWT_SECRET`.
+```bash
+# Build
+docker build -t json-csv-visualizer .
+
+# Run
+docker run -p 3000:3000 json-csv-visualizer
+# O con docker-compose
+docker-compose up -d
+```
+
+## 📁 Uso
+
+1. **Carga archivos** → Sube JSON/CSV
+2. **Conecta BD** → (Opcional) SQLite, PostgreSQL, etc.
+3. **Explora datos** → Tablas, filtros, búsqueda
+4. **Visualiza** → Gráficos y diagramas ER
+5. **Exporta** → Descarga como CSV
+
+## 📚 Documentación
+
+→ **[joseangelalejo.github.io/json-csv-visualizerv1](https://joseangelalejo.github.io/json-csv-visualizerv1/)**
+
+## 🔗 Enlaces
+
+- 🌐 [Sitio en vivo](https://json-csv-visualizerv1.vercel.app)
+- 📖 [Documentación](https://joseangelalejo.github.io/json-csv-visualizerv1/)
+- ♻️ [GitHub Repo](https://github.com/joseangelalejo/json-csv-visualizerv1)
+- 🐛 [Reportar bugs](https://github.com/joseangelalejo/json-csv-visualizerv1/issues)
 
 ```bash
 git clone https://github.com/joseangelalejo/json-csv-visualizerv1.git
@@ -300,4 +349,4 @@ Este proyecto está licenciado bajo Creative Commons Attribution-NonCommercial-S
 
 Hecho con ❤️ y mucho 🧠
 
-[Volver arriba ⬆️](#-jsoncsv-data-visualizer)
+[Volver arriba ⬆️](#-jsoncsv-data-visualizer--web-ide)
